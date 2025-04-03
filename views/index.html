@@ -170,7 +170,7 @@
             sessionStorage.setItem('jwtToken', data.data.token);
             sessionStorage.setItem('refreshToken', data.data.refresh_token);
             sessionStorage.setItem('username', data.data.username);
-            sessionStorage.setItem('fullname', data.data.full_name);
+            sessionStorage.setItem('fullname', data.data.fullname);
             document.getElementById('login-status').innerText = 'Login successful!';
             showDashboard();
             setupWebSocket();

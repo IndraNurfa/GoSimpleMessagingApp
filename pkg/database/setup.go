@@ -1,11 +1,14 @@
 package database
 
 import (
+	"context"
 	"fmt"
 	"log"
 
 	"github.com/kooroshh/fiber-boostrap/app/models"
 	"github.com/kooroshh/fiber-boostrap/pkg/env"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -32,4 +35,19 @@ func SetupDatabase() {
 		log.Fatal("Failed to migrate database:: ", err)
 	}
 	log.Println("sucessfully migrate database!")
+}
+
+func SetupMongoDB() {
+	uri := env.GetEnv("MONGODB_URI", "")
+	client, err := mongo.Connect(context.TODO(), options.Client().
+		ApplyURI(uri))
+
+	if err != nil {
+		panic(err)
+	}
+
+	coll := client.Database("messaging_app").Collection("message")
+	MongoDB = coll
+
+	log.Println("successfully connected to mongoDB")
 }
